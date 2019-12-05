@@ -57,30 +57,37 @@ public class Expression {
         }
     }
 
-    public int getResultExpression(String string){
+    public String getResultExpression(String string){
         int result = 0;
         Numbers numbers = new Numbers();
         Operation operations = new Operation();
         boolean isArabicNumbers = numbers.getFormatNumbers(string);
+        int a = getA(string, isArabicNumbers);
+        int b = getB(string, isArabicNumbers);
 
 
         switch (operations.getOperation(string, isArabicNumbers)) {
             case "+":
-                result = getA(string, isArabicNumbers) + getB(string, isArabicNumbers);
+                result = a + b;
                 break;
             case "*":
-                result = getA(string, isArabicNumbers) * getB(string, isArabicNumbers);
+                result = a * b;
                 break;
             case "-":
-                result = getA(string, isArabicNumbers) - getB(string, isArabicNumbers);
+                result = a - b;
                 break;
             case "/":
-                result = getA(string, isArabicNumbers) / getB(string, isArabicNumbers);
+                result = a / b;
                 break;
             default:
                 throw new RuntimeException("Оператор не соответствует доступным: " +
                         "-, +, *, /");
         }
-        return result;
+
+        if(!isArabicNumbers){
+            return numbers.arabicToRoman(result);
+        }
+
+        return String.valueOf(result);
     }
 }
