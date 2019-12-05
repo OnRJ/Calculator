@@ -6,9 +6,9 @@ import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Expression {
+class Expression {
 
-    public static String getExpression() {
+    static String getExpression() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String string = "";
         try {
@@ -19,13 +19,13 @@ public class Expression {
         return string;
     }
 
-    private static int getA(String string, boolean isArabicNumbers) {
+    private static double getA(String string, boolean isArabicNumbers) {
         Pattern pattern = Pattern.compile("^\\w+");
         Matcher matcher = pattern.matcher(string);
         String s1 = matcher.find() ? matcher.group() : "";
 
         if (isArabicNumbers) {
-            int a = Integer.parseInt(s1);
+            double a = Double.parseDouble(s1);
             if (Integer.parseInt(s1) > 10 || Integer.parseInt(s1) < 1) {
                 throw new RuntimeException("Первое число должно быть в диапазоне от 1 до 10");
             }
@@ -38,13 +38,13 @@ public class Expression {
         }
     }
 
-    private static int getB(String string, boolean isArabicNumbers){
+    private static double getB(String string, boolean isArabicNumbers){
         Pattern pattern = Pattern.compile("\\w+$");
         Matcher matcher = pattern.matcher(string);
         String s1 = matcher.find() ? matcher.group() : "";
 
         if (isArabicNumbers) {
-            int a = Integer.parseInt(s1);
+            double a = Double.parseDouble(s1);
             if (Integer.parseInt(s1) > 10 || Integer.parseInt(s1) < 1) {
                 throw new RuntimeException("Второе число должно быть в диапазоне от 1 до 10");
             }
@@ -57,12 +57,12 @@ public class Expression {
         }
     }
 
-    public static String getResultExpression(String string){
-        int result = 0;
+    static String getResultExpression(String string){
+        double result;
         Operation operations = new Operation();
         boolean isArabicNumbers = Numbers.getFormatNumbers(string);
-        int a = getA(string, isArabicNumbers);
-        int b = getB(string, isArabicNumbers);
+        double a = getA(string, isArabicNumbers);
+        double b = getB(string, isArabicNumbers);
 
 
         switch (operations.getOperation(string, isArabicNumbers)) {
@@ -87,6 +87,9 @@ public class Expression {
             return Numbers.arabicToRoman(result);
         }
 
-        return String.valueOf(result);
+        if((result - (int) result) > 0){
+            return String.valueOf(result);
+        }
+        return String.valueOf((int) result);
     }
 }

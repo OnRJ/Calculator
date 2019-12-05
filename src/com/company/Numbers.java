@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class Numbers {
+class Numbers {
 
-    public static boolean getFormatNumbers(String string){
+    static boolean getFormatNumbers(String string){
         Pattern patternForRimNumbers = Pattern.compile("[a-zA-Z]");
         Pattern patternForArabicNumbers = Pattern.compile("[0-9]");
-        Pattern patternFloatNumbers = Pattern.compile("(\\*-|\\/-|\\--|\\+-|\\.|\\,|^-.)");
+        Pattern patternFloatNumbers = Pattern.compile("(\\*-|/-|--|\\+-|\\.|,|^-.)");
 
         if((patternFloatNumbers.matcher(string)).find()){
             throw new RuntimeException("Числа должны быть целые " +
@@ -21,11 +21,7 @@ public class Numbers {
         if((patternForRimNumbers.matcher(string)).find()
                 && (patternForArabicNumbers.matcher(string)).find()){
             throw new RuntimeException("Все числа в выражение должны быть арабскими, либо римскими");
-        } else if((patternForArabicNumbers.matcher(string)).find()){
-            return true;
-        } else {
-            return false;
-        }
+        } else return (patternForArabicNumbers.matcher(string)).find();
     }
 
     enum RomanNumeral {
@@ -50,7 +46,7 @@ public class Numbers {
         }
     }
 
-    public static int romanToArabic(String input) {
+    static int romanToArabic(String input) {
         String romanNumeral = input.toUpperCase();
         int result = 0;
 
@@ -76,7 +72,7 @@ public class Numbers {
         return result;
     }
 
-    public static String arabicToRoman(int number) {
+    static String arabicToRoman(double number) {
         String minus = "";
 
         if(number < 0){
@@ -84,6 +80,9 @@ public class Numbers {
             number = number * -1;
         } else if(number == 0){
             return "ноль";
+
+        } else if((number - (int) number) > 0){
+            return minus + number;
         }
 
         List<RomanNumeral> romanNumerals = RomanNumeral.getReverseSortedValues();

@@ -3,9 +3,9 @@ package com.company;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Operation {
+class Operation {
 
-    public String getOperation(String string, Boolean isArabicNumbers){
+    String getOperation(String string, Boolean isArabicNumbers){
         Pattern pattern;
 
         if(isArabicNumbers){
