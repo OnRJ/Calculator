@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 public class Expression {
 
-    public String getExpression() {
+    public static String getExpression() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String string = "";
         try {
@@ -19,7 +19,7 @@ public class Expression {
         return string;
     }
 
-    private int getA(String string, boolean isArabicNumbers) {
+    private static int getA(String string, boolean isArabicNumbers) {
         Pattern pattern = Pattern.compile("^\\w+");
         Matcher matcher = pattern.matcher(string);
         String s1 = matcher.find() ? matcher.group() : "";
@@ -38,7 +38,7 @@ public class Expression {
         }
     }
 
-    private int getB(String string, boolean isArabicNumbers){
+    private static int getB(String string, boolean isArabicNumbers){
         Pattern pattern = Pattern.compile("\\w+$");
         Matcher matcher = pattern.matcher(string);
         String s1 = matcher.find() ? matcher.group() : "";
@@ -57,11 +57,10 @@ public class Expression {
         }
     }
 
-    public String getResultExpression(String string){
+    public static String getResultExpression(String string){
         int result = 0;
-        Numbers numbers = new Numbers();
         Operation operations = new Operation();
-        boolean isArabicNumbers = numbers.getFormatNumbers(string);
+        boolean isArabicNumbers = Numbers.getFormatNumbers(string);
         int a = getA(string, isArabicNumbers);
         int b = getB(string, isArabicNumbers);
 
@@ -85,7 +84,7 @@ public class Expression {
         }
 
         if(!isArabicNumbers){
-            return numbers.arabicToRoman(result);
+            return Numbers.arabicToRoman(result);
         }
 
         return String.valueOf(result);

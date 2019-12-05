@@ -4,14 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Operation {
-    private String operation;
 
-    public String getOperation(String string, Boolean isArabicNumbers) {
-        operation = parseOperation(string, isArabicNumbers);
-        return operation;
-    }
-
-    private String parseOperation(String string, Boolean isArabicNumbers){
+    public String getOperation(String string, Boolean isArabicNumbers){
         Pattern pattern;
 
         if(isArabicNumbers){

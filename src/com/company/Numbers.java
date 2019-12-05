@@ -8,29 +8,24 @@ import java.util.stream.Collectors;
 
 public class Numbers {
 
-    public boolean getFormatNumbers(String string){
+    public static boolean getFormatNumbers(String string){
         Pattern patternForRimNumbers = Pattern.compile("[a-zA-Z]");
         Pattern patternForArabicNumbers = Pattern.compile("[0-9]");
-        Pattern patternFloatNumbers = Pattern.compile("[.,]");
-        Pattern patternNegativeNumbers1 = Pattern.compile("(\\*-|\\/-|\\--|\\+-)");
-        Pattern patternNegativeNumbers2 = Pattern.compile("^-.");
+        Pattern patternFloatNumbers = Pattern.compile("(\\*-|\\/-|\\--|\\+-|\\.|\\,|^-.)");
 
-            if((patternNegativeNumbers1.matcher(string)).find() || (patternNegativeNumbers2.matcher(string)).find()){
-                throw new RuntimeException("Числа должны быть в диапазоне от 1 до 10");
-            }
+        if((patternFloatNumbers.matcher(string)).find()){
+            throw new RuntimeException("Числа должны быть целые " +
+                    "и в диапазоне от 1 до 10");
+        }
 
-            if((patternFloatNumbers.matcher(string)).find()){
-                throw new RuntimeException("Число должно быть целое");
-            }
-
-            if((patternForRimNumbers.matcher(string)).find()
-                   && (patternForArabicNumbers.matcher(string)).find()){
-                throw new RuntimeException("Все числа в выражение должны быть арабскими, либо римскими");
-            } else if((patternForArabicNumbers.matcher(string)).find()){
-                return true;
-            } else {
-               return false;
-           }
+        if((patternForRimNumbers.matcher(string)).find()
+                && (patternForArabicNumbers.matcher(string)).find()){
+            throw new RuntimeException("Все числа в выражение должны быть арабскими, либо римскими");
+        } else if((patternForArabicNumbers.matcher(string)).find()){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     enum RomanNumeral {
@@ -82,6 +77,14 @@ public class Numbers {
     }
 
     public static String arabicToRoman(int number) {
+        String minus = "";
+
+        if(number < 0){
+            minus = "-";
+            number = number * -1;
+        } else if(number == 0){
+            return "ноль";
+        }
 
         List<RomanNumeral> romanNumerals = RomanNumeral.getReverseSortedValues();
 
@@ -98,6 +101,6 @@ public class Numbers {
             }
         }
 
-        return sb.toString();
+        return minus + sb.toString();
     }
 }
